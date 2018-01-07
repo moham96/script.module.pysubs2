@@ -32,15 +32,16 @@ reference this plugin in your subtitle addon by:
   </requires>
 
 Import any2ass function in your script:
-  from any2ass import any2ass
+from any2ass import any2ass
 
 Call the plugin's any2ass funtion:
-  sub = any2ass(sub, font, encodings ) # convert .srt to .ass
+sub = any2ass(sub, font, encodings ) # convert .srt to .ass
+
 where:
-  sub = filename of chosen subtitle file
-  font = optional font size. The default is 18.
-  encodings = the list of file encodings to try. The first that doesn't cause an exception is used.
-    The default is ["utf-8", "cp1250", "cp1252" ]
+sub = filename of chosen subtitle file
+font = optional font size. The default is 18.
+encodings = the list of file encodings to try. The first that doesn't cause an exception is used.
+   The default is ["utf-8", "cp1250", "cp1252" ]
 
 
 The complete code for subtitle addon looks like this:
@@ -59,7 +60,8 @@ elif params['action'] == 'download':
 
 
 
-Changelog
+Changelog:
+==========
 
 0.0.1
 - initial plugin version
