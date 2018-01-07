@@ -8,7 +8,7 @@
         <summary>Provides pysubs2 library functionality for Kodi addons</summary>
         <description>Provides pysubs2 library functionality for Kodi addons</description>
         <license>MIT</license>
-        <source>https://github.com/...</source>
+        <source>https://github.com/bkiziuk/script.module.pysubs2</source>
         <platform>all</platform>
     </extension>
 </addon>
