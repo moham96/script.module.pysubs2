@@ -1,0 +1,3 @@
+0.0.1
+- initial plugin version
+- pysubs2 library version: 0.2.2
