@@ -41,9 +41,9 @@ Import any2ass function in your script:
 from any2ass import any2ass
 ```
 
-Call the plugin's any2ass funtion:
+Call the plugin's any2ass function:
 ```
-sub = any2ass(sub, font, encodings ) # convert .srt to .ass
+sub = any2ass(sub, font, encodings )
 ```
 where:
 - sub = filename of chosen subtitle file
@@ -62,7 +62,7 @@ elif params['action'] == 'download':
     # enable optional subtitles conversion
     if __addon__.getSetting( "background" ) == "true":
       font = __addon__.getSetting( "fontsize" )
-      sub = any2ass(sub, font, ["utf-8", "cp1250", "cp1252"] ) # convert .srt to .ass
+      sub = any2ass(sub, font, ["utf-8", "cp1250", "cp1252"] )
     
     listitem = xbmcgui.ListItem(label=sub)
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=sub,listitem=listitem,isFolder=False)
