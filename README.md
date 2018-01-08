@@ -19,6 +19,7 @@ reading subtitles displayed on top of the movie.
 
 
 Installation in KODI:
+=====================
 - download plugin
 - open KODI -> System -> Settings -> Add-ons -> Install from zip file
 - navigate to the file you downloaded
@@ -27,24 +28,33 @@ Installation in KODI:
 Usage:
 ======
 reference this plugin in your subtitle addon by:
+```  
   <requires>
     <import addon="script.module.pysubs2" version="0.0.1"/>
   </requires>
+```
+
 
 Import any2ass function in your script:
+
+```
 from any2ass import any2ass
+```
 
 Call the plugin's any2ass funtion:
+```
 sub = any2ass(sub, font, encodings ) # convert .srt to .ass
-
+```
 where:
-sub = filename of chosen subtitle file
-font = optional font size. The default is 18.
-encodings = the list of file encodings to try. The first that doesn't cause an exception is used.
+- sub = filename of chosen subtitle file
+- font = optional font size. The default is 18.
+- encodings = the list of file encodings to try. The first that doesn't cause an exception is used.
    The default is ["utf-8", "cp1250", "cp1252" ]
 
 
+
 The complete code for subtitle addon looks like this:
+```
 ...
 elif params['action'] == 'download':
   subs = Download(params["ID"], params["link"],params["format"])
@@ -56,7 +66,7 @@ elif params['action'] == 'download':
     
     listitem = xbmcgui.ListItem(label=sub)
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=sub,listitem=listitem,isFolder=False)
-
+```
 
 
 
