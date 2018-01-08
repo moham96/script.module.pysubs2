@@ -9,7 +9,7 @@ import pysubs2
 
 def any2ass(input_file, font_size = 18, encodings = ["utf-8", "cp1250", "cp1252" ]):
     if not os.path.isfile(input_file):
-        print input_file + ' does not exist'
+        print(input_file + ' does not exist')
         return
 
     #try to detect proper encoding
