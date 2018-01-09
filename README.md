@@ -59,10 +59,12 @@ The complete code for subtitle addon looks like this:
 elif params['action'] == 'download':
   subs = Download(params["ID"], params["link"],params["format"])
   for sub in subs:
-    # enable optional subtitles conversion
+  
+    ### enable optional subtitles conversion 
     if __addon__.getSetting( "background" ) == "true":
       font = __addon__.getSetting( "fontsize" )
       sub = any2ass(sub, font, ["utf-8", "cp1250", "cp1252"] )
+    ###  
     
     listitem = xbmcgui.ListItem(label=sub)
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=sub,listitem=listitem,isFolder=False)
