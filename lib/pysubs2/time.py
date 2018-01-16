@@ -6,6 +6,8 @@ import re
 
 #: Pattern that matches both SubStation and SubRip timestamps.
 TIMESTAMP = re.compile(r"(\d{1,2}):(\d{2}):(\d{2})[.,](\d{2,3})")
+#: Pattern that matches TMP timestamp
+TMPTIMESTAMP = re.compile(r"(\d{1,2}):(\d{2}):(\d{2}):")
 
 Times = namedtuple("Times", ["h", "m", "s", "ms"])
 
@@ -49,6 +51,20 @@ def timestamp_to_ms(groups):
     ms += h * 3600000
     return ms
 
+def tmptimestamp_to_ms(groups):
+    """
+    Convert groups from :data:`pysubs2.time.TMPTIMESTAMP` match to milliseconds.
+    
+    Example:
+        >>> timestamp_to_ms(TIMESTAMP.match("0:00:01").groups())
+        1000
+    
+    """
+    h, m, s  = map(int, groups)
+    ms = s * 1000
+    ms += m * 60000
+    ms += h * 3600000
+    return ms
 def times_to_ms(h=0, m=0, s=0, ms=0):
     """
     Convert hours, minutes, seconds to milliseconds.
