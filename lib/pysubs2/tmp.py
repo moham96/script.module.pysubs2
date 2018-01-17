@@ -5,7 +5,12 @@ from .formatbase import FormatBase
 from .ssaevent import SSAEvent
 from .ssastyle import SSAStyle
 from .substation import parse_tags
-from .time import ms_to_times, make_time, TMPTIMESTAMP, tmptimestamp_to_ms 
+from .time import ms_to_times, make_time, tmptimestamp_to_ms 
+
+#: Pattern that matches TMP timestamp
+TMPTIMESTAMP = re.compile(r"(\d{1,2}):(\d{2}):(\d{2})")
+#: Pattern that matches TMP line
+TMP_LINE = re.compile(r"(\d{1,2}:\d{2}:\d{2}):(.+)")
 
 #: Largest timestamp allowed in Tmp, ie. 99:59:59.
 MAX_REPRESENTABLE_TIME = make_time(h=100) - 1
@@ -27,41 +32,34 @@ class TmpFormat(FormatBase):
             return None
 
         for line in text.splitlines():
-            if len(TMPTIMESTAMP.findall(line)) == 1:
+            if len(TMP_LINE.findall(line)) == 1:
                 return "tmp"
 
     @classmethod
     def from_file(cls, subs, fp, format_, **kwargs):
         timestamps = [] # (start)
-        following_lines = [] # contains lists of lines following each timestamp
+        lines = [] # contains lists of lines following each timestamp
 
         for line in fp:
-            stamps = TMPTIMESTAMP.findall(line)[0]
-            if len(stamps) == 3: # timestamp line
-                start = tmptimestamp_to_ms(stamps)
-                #calculate endtime from starttime + 2 seconds + 1 second per each space in string (which should roughly equal number of words)
-                end = start + 3000 + (1000 * line.count(" "))
-                timestamps.append((start, end))
-                following_lines.append([])
-            else:
-                if timestamps:
-                    following_lines[-1].append(line)
+            match = TMP_LINE.match(line)
+            if not match:
+                continue
+
+            start, text = match.groups()
+            start = tmptimestamp_to_ms(TMPTIMESTAMP.match(start).groups())
+            #calculate endtime from starttime + 43 seconds + 1 second per each space in string (which should roughly equal number of words)
+            end = start + 3000 + (1000 * line.count(" "))
+            timestamps.append((start, end))
+            lines.append(text)
 
         def prepare_text(lines):
-            s = "".join(lines).strip()
-            s = re.sub(r"\n+ *\d+ *$", "", s) # strip number of next subtitle
-            s = re.sub(r"< *i *>", r"{\i1}", s)
-            s = re.sub(r"< */ *i *>", r"{\i0}", s)
-            s = re.sub(r"< *s *>", r"{\s1}", s)
-            s = re.sub(r"< */ *s *>", r"{\s0}", s)
-            s = re.sub(r"< *u *>", "{\\u1}", s) # not r" for Python 2.7 compat, triggers unicodeescape
-            s = re.sub(r"< */ *u *>", "{\\u0}", s)
-            s = re.sub(r"< */? *[a-zA-Z][^>]*>", "", s) # strip other HTML tags
-            s = re.sub(r"\n", r"\N", s) # convert newlines
-            return s
+            lines = lines.replace("|", r"\N")  # convert newlines
+            lines = re.sub(r"< *u *>", "{\\u1}", lines) # not r" for Python 2.7 compat, triggers unicodeescape
+            lines = re.sub(r"< */? *[a-zA-Z][^>]*>", "", lines) # strip other HTML tags
+            return lines
 
         subs.events = [SSAEvent(start=start, end=end, text=prepare_text(lines))
-                       for (start, end), lines in zip(timestamps, following_lines)]
+                       for (start, end), lines in zip(timestamps, lines)]
 
     @classmethod
     def to_file(cls, subs, fp, format_, **kwargs):

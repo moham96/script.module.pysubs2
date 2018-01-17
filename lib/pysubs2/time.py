@@ -6,8 +6,6 @@ import re
 
 #: Pattern that matches both SubStation and SubRip timestamps.
 TIMESTAMP = re.compile(r"(\d{1,2}):(\d{2}):(\d{2})[.,](\d{2,3})")
-#: Pattern that matches TMP timestamp
-TMPTIMESTAMP = re.compile(r"(\d{1,2}):(\d{2}):(\d{2}):")
 
 Times = namedtuple("Times", ["h", "m", "s", "ms"])
 

@@ -50,4 +50,4 @@ if len(sys.argv) > 3:
       name = sys.argv[1]
       fontsize = sys.argv[2]
       encodinglist = sys.argv[3]
-      any2ass(name)
+      any2ass(name, fontsize, encodinglist)

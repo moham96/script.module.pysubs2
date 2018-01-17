@@ -12,7 +12,7 @@
             "stopOnEntry": true,
             "pythonPath": "${config:python.pythonPath}",
             "program": "${file}",
-            "args": ["/home/kiziuk/development/pysubs2/tmp.txt" ],
+            "args": ["/home/kiziuk/development/script.module.pysubs2/lib/subs.txt"],
             "cwd": "${workspaceFolder}",
             "env": {},
             "envFile": "${workspaceFolder}/.env",
