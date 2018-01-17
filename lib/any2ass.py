@@ -46,8 +46,8 @@ def any2ass(input_file, font_size = 18, encodings = ["utf-8", "cp1252", "cp1250"
 
     return output_file
 
-if len(sys.argv) > 1:
+if len(sys.argv) > 3:
       name = sys.argv[1]
-    #  fontsize = sys.argv[2]
-    #  encodinglist = sys.argv[3]
+      fontsize = sys.argv[2]
+      encodinglist = sys.argv[3]
       any2ass(name)

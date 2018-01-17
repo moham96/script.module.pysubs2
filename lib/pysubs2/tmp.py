@@ -5,18 +5,18 @@ from .formatbase import FormatBase
 from .ssaevent import SSAEvent
 from .ssastyle import SSAStyle
 from .substation import parse_tags
-from .time import ms_to_times, make_time, TIMESTAMP, TMPTIMESTAMP, tmptimestamp_to_ms, timestamp_to_ms
+from .time import ms_to_times, make_time, TMPTIMESTAMP, tmptimestamp_to_ms 
 
-#: Largest timestamp allowed in SubRip, ie. 99:59:59,999.
+#: Largest timestamp allowed in Tmp, ie. 99:59:59.
 MAX_REPRESENTABLE_TIME = make_time(h=100) - 1
 
 def ms_to_timestamp(ms):
-    """Convert ms to 'HH:MM:SS,mmm'"""
+    """Convert ms to 'HH:MM:SS'"""
     # XXX throw on overflow/underflow?
     if ms < 0: ms = 0
     if ms > MAX_REPRESENTABLE_TIME: ms = MAX_REPRESENTABLE_TIME
     h, m, s, ms = ms_to_times(ms)
-    return "%02d:%02d:%02d,%03d" % (h, m, s, ms)
+    return "%02d:%02d:%02d" % (h, m, s)
 
 
 class TmpFormat(FormatBase):
@@ -36,12 +36,11 @@ class TmpFormat(FormatBase):
         following_lines = [] # contains lists of lines following each timestamp
 
         for line in fp:
-            stamps = TMPTIMESTAMP.findall(line)
-            if len(stamps) == 1: # timestamp line
-                start = map(tmptimestamp_to_ms, stamps)
-                #start = tmptimestamp_to_ms(stamps)
+            stamps = TMPTIMESTAMP.findall(line)[0]
+            if len(stamps) == 3: # timestamp line
+                start = tmptimestamp_to_ms(stamps)
                 #calculate endtime from starttime + 2 seconds + 1 second per each space in string (which should roughly equal number of words)
-                end = start[0] + 3000 + (1000 * line.count(" "))
+                end = start + 3000 + (1000 * line.count(" "))
                 timestamps.append((start, end))
                 following_lines.append([])
             else:
