@@ -47,8 +47,8 @@ class TmpFormat(FormatBase):
 
             start, text = match.groups()
             start = tmptimestamp_to_ms(TMPTIMESTAMP.match(start).groups())
-            #calculate endtime from starttime + 43 seconds + 1 second per each space in string (which should roughly equal number of words)
-            end = start + 3000 + (1000 * line.count(" "))
+            #calculate endtime from starttime + 3 seconds + 0.5 second per each space in string (which should roughly equal number of words)
+            end = start + 3000 + (500 * line.count(" "))
             timestamps.append((start, end))
             lines.append(text)
 
