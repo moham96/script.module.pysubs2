@@ -30,7 +30,7 @@ Usage:
 reference this plugin in your subtitle addon by:
 ```  
   <requires>
-    <import addon="script.module.pysubs2" version="0.0.1"/>
+    <import addon="script.module.pysubs2" version="0.0.2"/>
   </requires>
 ```
 
@@ -38,6 +38,9 @@ reference this plugin in your subtitle addon by:
 Import any2ass function in your script:
 
 ```
+smp = xbmcaddon.Addon ('script.module.pysubs2')
+path = smp.getAddonInfo('path')
+sys.path.append(xbmc.translatePath(os.path.join(path)))
 from any2ass import any2ass
 ```
 
