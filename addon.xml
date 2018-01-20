@@ -3,7 +3,7 @@
     <requires>
         <import addon="xbmc.python" version="2.7.0"/>
     </requires>
-    <extension point="xbmc.python.library" library="any2ass.py" />
+    <extension point="xbmc.python.module" library="any2ass.py" />
     <extension point="xbmc.addon.metadata">
         <summary>Provides pysubs2 library functionality for Kodi addons</summary>
         <description>Provides pysubs2 library functionality for Kodi addons</description>
