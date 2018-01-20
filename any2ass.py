@@ -5,7 +5,7 @@ import sys
 import os
 import re
 import codecs
-import pysubs2
+import lib.pysubs2
 
 def any2ass(input_file, font_size = 18, encodings = ["utf-8", "cp1252", "cp1250" ]):
     if not os.path.isfile(input_file):
