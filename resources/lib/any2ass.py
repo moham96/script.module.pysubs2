@@ -5,9 +5,12 @@ import sys
 import os
 import re
 import codecs
+import xbmcaddon
 import pysubs2
 
-def any2ass(input_file, font_size = 18, encodings = ["utf-8", "cp1250", "cp1252" ]):
+__addon__ = xbmcaddon.Addon()
+
+def any2ass(input_file, font_size = 18, encodings = ["utf-8", "cp1252", "cp1250" ]):
     if not os.path.isfile(input_file):
         print input_file + ' does not exist'
         #print(input_file + ' does not exist')
@@ -46,8 +49,9 @@ def any2ass(input_file, font_size = 18, encodings = ["utf-8", "cp1250", "cp1252"
 
     return output_file
 
-if len(sys.argv) > 3:
-      name = sys.argv[1]
-      fontsize = sys.argv[2]
-      encodinglist = sys.argv[3]
-      any2ass(name, fontsize, encodinglist)
+if len(sys.argv) > 1:
+    if __addon__.getSetting( "OSbackground" ) == "true":
+        fontsize = __addon__.getSetting( "OSfontsize" )
+        name = sys.argv[1]
+      #  encodinglist = sys.argv[3]
+        any2ass(name, fontsize) #, encodinglist)
