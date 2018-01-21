@@ -30,7 +30,7 @@ Usage:
 reference this plugin in your subtitle addon by:
 ```  
   <requires>
-    <import addon="script.module.pysubs2" version="0.0.2"/>
+    <import addon="script.module.pysubs2" version="0.1.0"/>
   </requires>
 ```
 
@@ -38,21 +38,15 @@ reference this plugin in your subtitle addon by:
 Import any2ass function in your script:
 
 ```
-smp = xbmcaddon.Addon ('script.module.pysubs2')
-path = smp.getAddonInfo('path')
-sys.path.append(xbmc.translatePath(os.path.join(path)))
-from any2ass import any2ass
+from lib.any2ass import any2ass
 ```
 
 Call the plugin's any2ass function:
 ```
-sub = any2ass(sub, font, encodings )
+sub = any2ass(sub)
 ```
 where:
 - sub = filename of chosen subtitle file
-- font = optional font size. The default is 18.
-- encodings = the list of file encodings to try. The first that doesn't cause an exception is used.
-   The default is ["utf-8", "cp1250", "cp1252" ]
 
 
 
@@ -60,14 +54,9 @@ The complete code for subtitle addon looks like this:
 ```
 ...
 elif params['action'] == 'download':
-  subs = Download(params["ID"], params["link"],params["format"])
-  for sub in subs:
-  
-    ### enable optional subtitles conversion 
-    if __addon__.getSetting( "background" ) == "true":
-      font = __addon__.getSetting( "fontsize" )
-      sub = any2ass(sub, font, ["utf-8", "cp1250", "cp1252"] )
-    ###  
+    subs = Download(params["ID"], params["link"],params["format"])
+    for sub in subs:
+        sub = any2ass(sub)
     
     listitem = xbmcgui.ListItem(label=sub)
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=sub,listitem=listitem,isFolder=False)
@@ -78,10 +67,11 @@ elif params['action'] == 'download':
 Changelog:
 ==========
 
-0.0.1
-- initial plugin version
-- pysubs2 library version: 0.2.2 (statically linked)
-
+0.1.0
+- settings moved from subtitle plugin to this plugin
 0.0.2
 - added support for TMP subtitle format
 - pysubs2 library forked to verion 0.2.3 (statically linked)
+0.0.1
+- initial plugin version
+- pysubs2 library version: 0.2.2 (statically linked)
